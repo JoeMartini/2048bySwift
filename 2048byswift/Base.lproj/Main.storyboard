@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="_048byswift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Go get 2048 !" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KUh-OZ-RCt">
+                                <rect key="frame" x="10" y="28" width="300" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" red="0.40000000596046448" green="0.80000001192092896" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current score: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wi7-MG-nAb">
+                                <rect key="frame" x="10" y="68" width="300" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooD-v3-XWL">
+                                <rect key="frame" x="66" y="418" width="188" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <state key="normal" title="Start">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="StartGame:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="JPy-E6-U2h"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VEk-Yp-OoJ">
+                                <rect key="frame" x="10" y="110" width="300" height="300"/>
+                                <color key="backgroundColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="w6r-wi-XGM" appends="YES" id="rEP-4a-eYg"/>
+                                    <outletCollection property="gestureRecognizers" destination="Cfp-FH-m9O" appends="YES" id="VF7-Q4-i1z"/>
+                                    <outletCollection property="gestureRecognizers" destination="DXt-Gk-v5k" appends="YES" id="M6h-mZ-UDM"/>
+                                    <outletCollection property="gestureRecognizers" destination="GAT-bR-sxx" appends="YES" id="s56-fn-8VX"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="GameAreaView" destination="VEk-Yp-OoJ" id="pdN-kO-CQD"/>
+                        <outlet property="ScoreLabel" destination="wi7-MG-nAb" id="7eT-Qj-I2o"/>
+                        <outlet property="StartGameButton" destination="ooD-v3-XWL" id="YjK-TM-nCN"/>
+                        <outlet property="TitleLabel" destination="KUh-OZ-RCt" id="gPU-jY-Mdz"/>
+                        <outlet property="swipeDown" destination="GAT-bR-sxx" id="RhV-Su-i1G"/>
+                        <outlet property="swipeLeft" destination="w6r-wi-XGM" id="lMe-xK-m0I"/>
+                        <outlet property="swipeRight" destination="Cfp-FH-m9O" id="eQD-fa-hOt"/>
+                        <outlet property="swipeUp" destination="DXt-Gk-v5k" id="xPW-px-p6g"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="w6r-wi-XGM"/>
+                <swipeGestureRecognizer direction="right" id="Cfp-FH-m9O"/>
+                <swipeGestureRecognizer direction="right" id="DXt-Gk-v5k"/>
+                <swipeGestureRecognizer direction="right" id="GAT-bR-sxx"/>
+            </objects>
+            <point key="canvasLocation" x="74" y="129"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4">
+            <size key="portraitSize" width="320" height="568"/>
+            <size key="landscapeSize" width="568" height="320"/>
+        </simulatedScreenMetrics>
+    </simulatedMetricsContainer>
+</document>
