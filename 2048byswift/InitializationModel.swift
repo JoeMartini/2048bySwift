@@ -25,6 +25,8 @@ var Score:Int = 0
 //当前方格中最大数字
 var CurrentMaxNum:Int = 0
 
+var didMove:Bool = false
+
 //使用label画出16个小格子
 func CellLoad (SuperView:UIView){
     //清空
@@ -108,31 +110,37 @@ func RefreshCells() {
 
 
 func moveLeft() -> Bool{
-    var didMove:Bool = false
+    didMove = false
 
     //从左向右查找同一行中是否有不为0的格子，有的话跟当前为0格子对调数值，查询的方向与移动方向相反
     for i in 1 ... 4 {
+        var emptyRow:Bool = true
         for j in 1 ... 4 {
             if CellDictionary["\(i),\(j)"]!.text == "0" {
                 for y in j ... 4 {
                     if CellDictionary["\(i),\(y)"]!.text != "0" {
+                        emptyRow = false
                         for var k = y+1; k < 5; ++k {
                             if stackCells("\(i),\(y)", "\(i),\(k)") {
                                 break
                             }
                         }
                         moveCells("\(i),\(j)", "\(i),\(y)")
-                        didMove = true
+                        //didMove = true
                         break
                     }
                 }
             } else {
+                emptyRow = false
                 for var k = j+1; k < 5; ++k {
                     if stackCells("\(i),\(j)", "\(i),\(k)") {
-                        didMove = true
+                        //didMove = true
                         break
                     }
                 }
+            }
+            if emptyRow {
+                break
             }
         }
     }
@@ -142,34 +150,38 @@ func moveLeft() -> Bool{
 }
 
 func moveRight() -> Bool{
-    var didMove:Bool = false
+    didMove = false
     
     /*
     从右向左查找同一行中是否有不为0的格子，
     若有：左侧是否有格子相同且只相隔空格子，相同则叠加，并跟当前为0格子对调数值
     */
     for i in 1 ... 4 {
+        var emptyRow:Bool = true
         for var j = 4; j > 0 ; j-- {
             if CellDictionary["\(i),\(j)"]!.text == "0" { //当前为空格子
                 for var y = j ; y > 0; --y { // 遍历当前行
                     if CellDictionary["\(i),\(y)"]!.text != "0" { //找到第一个非空格子
+                        emptyRow = false
                         for var k = y-1; k > 0; --k {
                             if stackCells("\(i),\(y)", "\(i),\(k)") {
                                 break
                             }
                         }
                         moveCells("\(i),\(j)", "\(i),\(y)")
-                        didMove = true
                         break
                     }
                 }
             } else {  //当前格子非空
+                emptyRow = false
                 for var k = j-1; k > 0; --k {
                     if stackCells("\(i),\(j)", "\(i),\(k)") {
-                        didMove = true
                         break
                     }
                 }
+            }
+            if emptyRow {
+                break
             }
         }
     }
@@ -179,30 +191,34 @@ func moveRight() -> Bool{
 }
 
 func moveUp() -> Bool{
-    var didMove:Bool = false
+    didMove = false
     //从上向下查找同一列中是否有不为0的格子，有的话跟当前为0格子对调数值
-    for i in 1 ... 4 {
-        for j in 1 ... 4 {
+    for j in 1 ... 4 {
+        var emptyColumn:Bool = true
+        for i in 1 ... 4 {
             if CellDictionary["\(i),\(j)"]!.text == "0" {
                 for x in i ... 4 {
                     if CellDictionary["\(x),\(j)"]!.text != "0" {
+                        emptyColumn = false
                         for var k = x+1; k<5; ++k {
                             if stackCells("\(x),\(j)", "\(k),\(j)") {
                                 break
                             }
                         }
                         moveCells("\(i),\(j)", "\(x),\(j)")
-                        didMove = true
                         break
                     }
                 }
             } else {
+                emptyColumn = false
                 for var k = i+1; k<5; ++k {
                     if stackCells("\(i),\(j)", "\(k),\(j)") {
-                        didMove = true
                         break
                     }
                 }
+            }
+            if emptyColumn {
+                break
             }
         }
     }
@@ -212,31 +228,36 @@ func moveUp() -> Bool{
 }
 
 func moveDown() -> Bool{
-    var didMove:Bool = false
+    didMove = false
 
     //从下向上查找同一列中是否有不为0的格子，有的话跟当前为0格子对调数值
-    for var i = 4 ; i > 0; --i {
-        for var j = 4; j > 0; --j {
+    for var j = 4; j > 0; --j {
+        var emptyColumn:Bool = true
+        for var i = 4 ; i > 0; --i {
             if CellDictionary["\(i),\(j)"]!.text == "0" {
-                for var x = i ; x > 0; --x {
+                for var x = i - 1 ; x > 0; --x {
                     if CellDictionary["\(x),\(j)"]!.text != "0" {
+                        emptyColumn = false
                         for var k = x-1; k>0; --k {
                             if stackCells("\(x),\(j)", "\(k),\(j)") {
                                 break
                             }
                         }
                         moveCells("\(i),\(j)", "\(x),\(j)")
-                        didMove = true
                         break
                     }
+                    emptyColumn = true
                 }
             } else {
+                emptyColumn = false
                 for var k=i-1; k>0; --k {
                     if stackCells("\(i),\(j)", "\(k),\(j)") {
-                        didMove = true
                         break
                     }
                 }
+            }
+            if emptyColumn {
+                break
             }
         }
     }
@@ -249,7 +270,7 @@ func moveCells(originalCell:String, operateCell:String) {
     CellDictionary[originalCell]!.text = CellDictionary[operateCell]!.text
     CellDictionary[operateCell]!.text = "0"
     updateEmptyCells(originalCell, operateCell)
-
+    didMove = true
 }
 func stackCells(originalCell:String, operateCell:String) -> Bool {
     if CellDictionary[operateCell]!.text == "0" {
@@ -259,6 +280,7 @@ func stackCells(originalCell:String, operateCell:String) -> Bool {
         CellDictionary[operateCell]!.text = "0"
         getCurrentMaxNum(CellDictionary[operateCell]!)
         updateEmptyCells(originalCell, operateCell)
+        didMove = true
         return true
     } else {
         return true
