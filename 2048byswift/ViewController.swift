@@ -47,7 +47,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     
     @IBAction func swipeOnGameAreaView(Sender:UISwipeGestureRecognizer){
         //获取划动方向
-        var currentSwipeDirection = Sender.direction.toRaw()  //得到方向的数字代号
+        var currentSwipeDirection = Sender.direction.rawValue  //得到方向的数字代号
         switch currentSwipeDirection {
         case 1 :
             if moveRight() && notyetGameOver() {
