@@ -276,7 +276,7 @@ func stackCells(originalCell:String, operateCell:String) -> Bool {
     if CellDictionary[operateCell]!.text == "0" {
         return false
     } else if CellDictionary[originalCell]!.text == CellDictionary[operateCell]!.text {
-        CellDictionary[originalCell]!.text = String(CellDictionary[operateCell]!.text.toInt()! * 2)!
+        CellDictionary[originalCell]!.text = String( CellDictionary[operateCell]!.text!.toInt()! * 2 )
         CellDictionary[operateCell]!.text = "0"
         getCurrentMaxNum(CellDictionary[operateCell]!)
         updateEmptyCells(originalCell, operateCell)
@@ -317,6 +317,6 @@ func notyetGameOver() -> Bool {
 }
 
 func getCurrentMaxNum(cellToCompare:UILabel){
-    CurrentMaxNum = ((cellToCompare.text.toInt()! > CurrentMaxNum) ? cellToCompare.text.toInt()! : CurrentMaxNum)
+    CurrentMaxNum = ((cellToCompare.text!.toInt()! > CurrentMaxNum) ? cellToCompare.text!.toInt()! : CurrentMaxNum)
 }
 
