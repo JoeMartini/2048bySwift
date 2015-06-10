@@ -102,7 +102,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         }
     }
     
-    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         StartGame(StartGameButton)
     }
     
