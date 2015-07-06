@@ -33,7 +33,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     }
     
     @IBAction func StartGame(Sender:UIButton){
-        GameAreaView.backgroundColor = myUIColor(255,205,112,1.0)
+        GameAreaView.backgroundColor = myUIColor(255,G: 205,B: 112,A: 1.0)
         GameAreaView.layer.cornerRadius = 10
         CellLoad(GameAreaView)
         CreatNumedCell(2)
@@ -41,13 +41,13 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         RefreshCells()
 
         ScoreLabel.hidden = false
-        StartGameButton.setTitle("New Game", forState: nil)
+        StartGameButton.setTitle("New Game", forState: [])
         ScoreLabel.text! = "Current score: \(Score)"
     }
     
     @IBAction func swipeOnGameAreaView(Sender:UISwipeGestureRecognizer){
         //获取划动方向
-        var currentSwipeDirection = Sender.direction.rawValue  //得到方向的数字代号
+        let currentSwipeDirection = Sender.direction.rawValue  //得到方向的数字代号
         switch currentSwipeDirection {
         case 1 :
             if moveRight() && notyetGameOver() {
@@ -58,7 +58,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             }
             //println("Right")
         case 2 :
-            println("Left")
+            print("Left")
             if moveLeft() && notyetGameOver()  {
                 CreatNumedCell(1)
                 RefreshCells()
@@ -82,7 +82,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             }
             //println("Down")
         default :
-            println("Error")
+            print("Error")
         }
         //检测滑动方向上是否有空格子
         //检测滑动方向上是否发生叠加
@@ -95,7 +95,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     
     func gameDidOver() {
         if !notyetGameOver() {
-            var GameOverWarning:UIAlertView = UIAlertView(title: "Game Over", message: "Try Again", delegate: self, cancelButtonTitle: "OK")
+            let GameOverWarning:UIAlertView = UIAlertView(title: "Game Over", message: "Try Again", delegate: self, cancelButtonTitle: "OK")
             GameOverWarning.show()
         } else {
             RefreshCells()

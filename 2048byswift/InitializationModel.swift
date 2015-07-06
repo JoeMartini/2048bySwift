@@ -32,8 +32,8 @@ func CellLoad (SuperView:UIView){
     //清空
     CleanEverything(SuperView)
     
-    var SuperWidth:CGFloat = SuperView.frame.width
-    var SuperHight:CGFloat = CGFloat(SuperView.frame.height)
+    let SuperWidth:CGFloat = SuperView.frame.width
+    let SuperHight:CGFloat = CGFloat(SuperView.frame.height)
     let SuperSize = (SuperView.frame.width,SuperView.frame.height)
     var CellWidth:CGFloat
     var Padding:CGFloat
@@ -52,12 +52,12 @@ func CellLoad (SuperView:UIView){
     
     for i in 1...4 {
         for j in 1...4 {
-            var xx:CGFloat = CGFloat(i)
-            var yy:CGFloat = CGFloat(j)
+            let xx:CGFloat = CGFloat(i)
+            let yy:CGFloat = CGFloat(j)
             
-            var CellLabel:UILabel = UILabel(frame: CGRectMake(Padding*yy+CellWidth*(yy-1), Padding * xx + CellWidth * (xx-1), CellWidth, CellWidth)) //固定x时生成一列
+            let CellLabel:UILabel = UILabel(frame: CGRectMake(Padding*yy+CellWidth*(yy-1), Padding * xx + CellWidth * (xx-1), CellWidth, CellWidth)) //固定x时生成一列
             CellLabel.layer.cornerRadius = 10 //Label的Layer层可以控制圆角、颜色等，在background层之上
-            CellLabel.layer.backgroundColor = myUIColor(255, 255, 255, 0.3).CGColor //UIColor可以用.CGColor方法转换为CGColor
+            CellLabel.layer.backgroundColor = myUIColor(255, G: 255, B: 255, A: 0.3).CGColor //UIColor可以用.CGColor方法转换为CGColor
             CellLabel.textColor = UIColor.whiteColor()
             CellLabel.font = UIFont.boldSystemFontOfSize(26)
             CellLabel.textAlignment = NSTextAlignment.Center
@@ -87,8 +87,8 @@ func CleanEverything (ViewToClean:UIView) {
 func CreatNumedCell(Times:Int){
     if EmptyCellsCoordinates.count != 0 {
         for i in 1 ... Times {
-            var randomIndex:Int = Int(arc4random_uniform(UInt32(EmptyCellsCoordinates.count))) //随机数种子应该先进行初始化，arc4random不需要初始化但是似乎没办法这样使用（似乎是因为Int8跟Int转换的问题）
-            var randomNum:Int = (Int(arc4random() % 2) + 1) * 2
+            let randomIndex:Int = Int(arc4random_uniform(UInt32(EmptyCellsCoordinates.count))) //随机数种子应该先进行初始化，arc4random不需要初始化但是似乎没办法这样使用（似乎是因为Int8跟Int转换的问题）
+            let randomNum:Int = (Int(arc4random() % 2) + 1) * 2
             CellDictionary["\( EmptyCellsCoordinates[randomIndex])"]!.text = "\(randomNum)"
             EmptyCellsCoordinates.removeAtIndex(randomIndex)
         }
@@ -100,11 +100,11 @@ func RefreshCells() {
     Score = 0
     for (Position , Cell) in CellDictionary {
         if Cell.text == "0" {
-            Cell.textColor = myUIColor(0, 0, 0, 0)
+            Cell.textColor = myUIColor(0, G: 0, B: 0, A: 0)
         }else{
-            Cell.textColor = myUIColor(255, 255, 255, 1)
+            Cell.textColor = myUIColor(255, G: 255, B: 255, A: 1)
         }
-        Score += Cell.text!.toInt()!
+        Score += Int(Cell.text!)!
     }
 }
 
@@ -121,11 +121,11 @@ func moveLeft() -> Bool{
                     if CellDictionary["\(i),\(y)"]!.text != "0" {
                         emptyRow = false
                         for var k = y+1; k < 5; ++k {
-                            if stackCells("\(i),\(y)", "\(i),\(k)") {
+                            if stackCells("\(i),\(y)", operateCell: "\(i),\(k)") {
                                 break
                             }
                         }
-                        moveCells("\(i),\(j)", "\(i),\(y)")
+                        moveCells("\(i),\(j)", operateCell: "\(i),\(y)")
                         //didMove = true
                         break
                     }
@@ -133,7 +133,7 @@ func moveLeft() -> Bool{
             } else {
                 emptyRow = false
                 for var k = j+1; k < 5; ++k {
-                    if stackCells("\(i),\(j)", "\(i),\(k)") {
+                    if stackCells("\(i),\(j)", operateCell: "\(i),\(k)") {
                         //didMove = true
                         break
                     }
@@ -164,18 +164,18 @@ func moveRight() -> Bool{
                     if CellDictionary["\(i),\(y)"]!.text != "0" { //找到第一个非空格子
                         emptyRow = false
                         for var k = y-1; k > 0; --k {
-                            if stackCells("\(i),\(y)", "\(i),\(k)") {
+                            if stackCells("\(i),\(y)", operateCell: "\(i),\(k)") {
                                 break
                             }
                         }
-                        moveCells("\(i),\(j)", "\(i),\(y)")
+                        moveCells("\(i),\(j)", operateCell: "\(i),\(y)")
                         break
                     }
                 }
             } else {  //当前格子非空
                 emptyRow = false
                 for var k = j-1; k > 0; --k {
-                    if stackCells("\(i),\(j)", "\(i),\(k)") {
+                    if stackCells("\(i),\(j)", operateCell: "\(i),\(k)") {
                         break
                     }
                 }
@@ -201,18 +201,18 @@ func moveUp() -> Bool{
                     if CellDictionary["\(x),\(j)"]!.text != "0" {
                         emptyColumn = false
                         for var k = x+1; k<5; ++k {
-                            if stackCells("\(x),\(j)", "\(k),\(j)") {
+                            if stackCells("\(x),\(j)", operateCell: "\(k),\(j)") {
                                 break
                             }
                         }
-                        moveCells("\(i),\(j)", "\(x),\(j)")
+                        moveCells("\(i),\(j)", operateCell: "\(x),\(j)")
                         break
                     }
                 }
             } else {
                 emptyColumn = false
                 for var k = i+1; k<5; ++k {
-                    if stackCells("\(i),\(j)", "\(k),\(j)") {
+                    if stackCells("\(i),\(j)", operateCell: "\(k),\(j)") {
                         break
                     }
                 }
@@ -239,11 +239,11 @@ func moveDown() -> Bool{
                     if CellDictionary["\(x),\(j)"]!.text != "0" {
                         emptyColumn = false
                         for var k = x-1; k>0; --k {
-                            if stackCells("\(x),\(j)", "\(k),\(j)") {
+                            if stackCells("\(x),\(j)", operateCell: "\(k),\(j)") {
                                 break
                             }
                         }
-                        moveCells("\(i),\(j)", "\(x),\(j)")
+                        moveCells("\(i),\(j)", operateCell: "\(x),\(j)")
                         break
                     }
                     emptyColumn = true
@@ -251,7 +251,7 @@ func moveDown() -> Bool{
             } else {
                 emptyColumn = false
                 for var k=i-1; k>0; --k {
-                    if stackCells("\(i),\(j)", "\(k),\(j)") {
+                    if stackCells("\(i),\(j)", operateCell: "\(k),\(j)") {
                         break
                     }
                 }
@@ -269,17 +269,17 @@ func moveDown() -> Bool{
 func moveCells(originalCell:String, operateCell:String) {
     CellDictionary[originalCell]!.text = CellDictionary[operateCell]!.text
     CellDictionary[operateCell]!.text = "0"
-    updateEmptyCells(originalCell, operateCell)
+    updateEmptyCells(originalCell, operateCell: operateCell)
     didMove = true
 }
 func stackCells(originalCell:String, operateCell:String) -> Bool {
     if CellDictionary[operateCell]!.text == "0" {
         return false
     } else if CellDictionary[originalCell]!.text == CellDictionary[operateCell]!.text {
-        CellDictionary[originalCell]!.text = String( CellDictionary[operateCell]!.text!.toInt()! * 2 )
+        CellDictionary[originalCell]!.text = String( Int(CellDictionary[operateCell]!.text!)! * 2 )
         CellDictionary[operateCell]!.text = "0"
         getCurrentMaxNum(CellDictionary[operateCell]!)
-        updateEmptyCells(originalCell, operateCell)
+        updateEmptyCells(originalCell, operateCell: operateCell)
         didMove = true
         return true
     } else {
@@ -288,7 +288,7 @@ func stackCells(originalCell:String, operateCell:String) -> Bool {
 }
 
 func updateEmptyCells(originalCell:String, operateCell:String){
-    for (index,contents) in enumerate(EmptyCellsCoordinates) {
+    for (index,contents) in EmptyCellsCoordinates.enumerate() {
         if contents == originalCell {
             EmptyCellsCoordinates.removeAtIndex(index)
         }
@@ -299,7 +299,7 @@ func updateEmptyCells(originalCell:String, operateCell:String){
 func notyetGameOver() -> Bool {
     var gameOver:Bool = false
     
-    println(EmptyCellsCoordinates.count)
+    print(EmptyCellsCoordinates.count)
     
     if EmptyCellsCoordinates.count == 0 {
         for i in 1 ... 3 {
@@ -317,6 +317,6 @@ func notyetGameOver() -> Bool {
 }
 
 func getCurrentMaxNum(cellToCompare:UILabel){
-    CurrentMaxNum = ((cellToCompare.text!.toInt()! > CurrentMaxNum) ? cellToCompare.text!.toInt()! : CurrentMaxNum)
+    CurrentMaxNum = ((Int(cellToCompare.text!)! > CurrentMaxNum) ? Int(cellToCompare.text!)! : CurrentMaxNum)
 }
 
